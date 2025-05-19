@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+        <link rel="stylesheet" href="styles.css">
+        <title>NexPort Logistics</title>
+    </head>
+
+    <body>
+        <!--------------------------- Pantalla principal y header --------------------------->
+        <ul class="nav nav-tabs nav-fill sticky-top bg-secondary p-3">
+            <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="#mainScreenAnchor">Main
+                    Section</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="#createOrderAnchor">Create New Order</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="#newZoneAnchor">Add New Zone</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="#summaryAnchor">Summary</a>
+            </li>
+        </ul>
+        <a id="mainScreenAnchor"></a>
+        <div id="main-screen">
+            <div class="container text-center mt-4">
+                <div class="row">
+                    <div class="col">
+                        <h2>Zones</h2>
+                        <div class="table-scroll">
+                            <table class="table table-info table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Zone</th>
+                                        <th scope="col">Rate</th>
+                                        <th scope="col">Orders</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="zones-table-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="most-orders-display"></div>
+                    </div>
+                    <div class="col">
+                        <h2>Products</h2>
+                        <div id="productList" class="table-scroll">
+                            <table class="table table-info table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-primary mt-2" onclick="showFloatingWindow('add')">Add
+                            Product</button>
+                        <button class="btn btn-primary mt-2" onclick="showFloatingWindow('remove')">Remove
+                            Product</buton>
+                            <button class="btn btn-primary mt-2" onclick="showFloatingWindow('update')">Update
+                                Product</button>
+                    </div>
+                    <div class="col">
+                        <h2>Orders</h2>
+                        <div class="table-scroll">
+                            <table class="table table-info table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Productos</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h2>Find Product</h2>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+                            <input id="find_productsInput" type="number" class="form-control"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div id="find_productsResult"></div>
+
+                        <button class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                            onclick="searchElement('products')">Find Product</button>
+
+                        <h2>Find Client</h2>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+                            <input id="find_clientsInput" type="number" class="form-control"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div id="find_clientsResult"></div>
+
+                        <button class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                            onclick="searchElement('clients')">Find Client</button>
+
+                        <h2>Find Order</h2>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+                            <input id="find_ordersInput" type="number" class="form-control"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <div id="find_ordersResult"></div>
+
+                        <button class="btn btn-info mb-5" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                            onclick="searchElement('orders')">Find Order</button>
+
+                    </div>
+                    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--------------------------- Sección para crear nuevo pedido --------------------------->
+        <a id="createOrderAnchor"></a>
+        <div id="create-order-container">
+            <h3>Create New Order</h3>
+            <form id="new-order-form">
+                <div>
+                    <select id="clientSelectElement" onchange="getClientDataForOrder(this.value)" class="form-select"
+                        aria-label="Default select example">
+                        <option disabled selected>-- Select Client --</option>
+                    </select>
+                    <button onclick="showFloatingWindow('newClient')" type="button" class="btn btn-success my-3">New
+                        Client</button>
+                </div>
+                <div id="selectedClientDiv" style="display: none;">
+                    <div>
+                        <div class="input-group mb-3">
+                            <input id="selectedClientId" name="clientIdFormData" readonly type="text"
+                                class="form-control" placeholder="Client ID" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input id="selectedClientName" readonly type="text" class="form-control"
+                                placeholder="Client Name" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input id="selectedClientEmail" readonly type="email" class="form-control"
+                                placeholder="Email" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input id="selectedClientAddress" readonly type="text" class="form-control"
+                                placeholder="Address" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                <input required id="orderDateInput" type="date" class="form-control">
+                <div>
+                    <h6 class="my-4">Productos: </h6>
+                    <div>
+                        <select id="productNewOrderSelectElement" onchange="getProductDataForOrder(this.value)"
+                            class="form-select" aria-label="Default select example">
+                            <option disabled selected>-- Select Product --</option>
+                        </select>
+                        <input type="number" id="productQuantity" placeholder="Quantity">
+                        <button type="button" class="btn btn-secondary m-3" onclick="addProductToOrder()">Add
+                            Product</button>
+                    </div>
+                    <div id="productsOrderSummary">
+
+                    </div>
+                </div>
+
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Produts Price</span>
+                    <input id="productsOrderPrice" type="text" readonly class="form-control"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    <span class="input-group-text">€</span>
+                </div>
+                <div class="input-group input-group-lg my-1">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Zone Rate</span>
+                    <input id="rateOrderPrice" type="text" readonly class="form-control"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    <span class="input-group-text">%</span>
+                </div>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text" id="inputGroup-sizing-lg">Total</span>
+                    <input id="totalOrderPrice" type="text" readonly class="form-control"
+                        aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                    <span class="input-group-text">€</span>
+                </div>
+                <button class="btn btn-primary my-3">Save Order</button>
+            </form>
+        </div>
+        <!--------------------------- Sección para crear nueva zona --------------------------->
+        <a id="newZoneAnchor"></a>
+        <div id="new-zone-container">
+            <h3>Add Zone</h3>
+            <form id="new-zone-form">
+                <div class="mb-3">
+                    <label for="newZoneNameInput" class="form-label">Zone</label>
+                    <input name="zoneName" type="text" class="form-control" id="newZoneNameInput"
+                        aria-describedby="newZoneName">
+                    <div id="newZoneName" class="form-text">Enter new zone name</div>
+                </div>
+                <div class="mb-3">
+                    <label for="newZoneRateInput" class="form-label">Rate</label>
+                    <div class="input-group">
+                        <input name="zoneRate" type="text" class="form-control" id="newZoneRateInput"
+                            aria-describedby="basic-addon3 basic-addon4">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+                <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#zoneConfirmModal">
+                    Add Zone
+                </button>
+            </form>
+            <div class="modal fade" id="zoneConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Zones Manager</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="zoneModalBody" class="modal-body">
+                            Zone added correctly
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--------------------------- Formularios flotantes --------------------------->
+        <div id="floating-background">
+
+            <!-------------------------------- Formulario flotante para añadir productos -------------------------------->
+            <div id="addProduct-inner-floating" style="display: none;">
+                <form id="add-product-form">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="productNameInput" placeholder="Product Name"
+                            required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">€</span>
+                        <input type="number" step="0.01" min="0" class="form-control" name="priceInput"
+                            placeholder="Price" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" min="0" class="form-control" name="stockInput" placeholder="Stock"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Product</button>
+                    <button type="button" class="btn btn-danger" onclick="hideFloatingWindows()">Cancel</button>
+                </form>
+            </div>
+
+            <!-------------------------------- Formulario flotante para quitar productos -------------------------------->
+            <div id="removeProduct-inner-floating" style="display: none;">
+                <form id="remove-product-form">
+                    <div class="input-group mb-3">
+                        <input type="number" min="0" class="form-control" name="idInput" placeholder="Id to Remove"
+                            required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Remove Product</button>
+                    <button type="button" class="btn btn-danger" onclick="hideFloatingWindows()">Cancel</button>
+                </form>
+            </div>
+
+            <!-------------------------------- Formulario flotante para cambiar productos -------------------------------->
+            <div id="updateProduct-inner-floating" style="display: none;">
+                <select class="form-select mb-4" onchange="showUpdateProductWindow(this.value)" id="selectElement"
+                    name="select">
+                    <option disabled selected> -- Select Product -- </option>
+                </select>
+                <div id="update-div" style="display: none;">
+                    <form id="update-product-form">
+                        <div class="mb-3">
+                            <input id="updateNameInput" type="text" class="form-control" name="productNameInput"
+                                placeholder="Product Name" value="" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">€</span>
+                            <input id="updatePriceInput" type="number" step="0.01" min="0" class="form-control"
+                                name="priceInput" placeholder="Price" value="" required>
+                        </div>
+                        <div class="mb-3">
+                            <input id="updateStockInput" type="number" min="0" class="form-control" name="stockInput"
+                                placeholder="Stock" value="" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Product</button>
+                    </form>
+                </div>
+                <button type="button" class="btn btn-danger" onclick="hideFloatingWindows()">Cancel</button>
+            </div>
+
+            <!-------------------------------- Formulario flotante para añadir nuevo cliente -------------------------------->
+            <div id="newClient-inner-floating" style="display: none;">
+                <form id="add-client-form">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="ClientNameInput" placeholder="Client Name"
+                            required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" name="emailInput" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" min="0" class="form-control" name="addressInput" placeholder="Address"
+                            required>
+                    </div>
+                    <select id="newClientZoneSelect" name="newClientZoneInput" class="form-select  mb-4"
+                        aria-label="Default select example">
+                        <option selected disabled>-- Select Zone --</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Add Client</button>
+                    <button type="button" class="btn btn-danger" onclick="hideFloatingWindows()">Cancel</button>
+                </form>
+            </div>
+        </div>
+
+        <!--------------------------- Panatalla de resumen --------------------------->
+        <a id="summaryAnchor"></a>
+        <div id="summary-container" class="container text-center">
+            <div class="row my-5">
+                <div class="col">
+                    <div id="orders-statistic-container">
+                        <h5 class="summaryTitle">Orders Statistics</h5>
+                        <div class="row border-bottom border-secondary">
+                            <div class="col border-end border-secondary">
+                                <div class="fs-1 my-3" id="totalOrders">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="fs-3 my-3" id="pendingOrders">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col border-end border-secondary">
+                                <div class="fs-2 my-3" id="totalRevenue"></div>
+                            </div>
+                            <div class="col">
+                                <div class="fs-3 my-3" id="shippedOrders">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="recent-order-container">
+                        <h5 class="summaryTitle">Recent Orders</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID Order</th>
+                                    <th scope="col">Customer</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTableBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row my-4">
+                <div class="col">
+                    <div id="top-products-container">
+                        <h5 class="summaryTitle">Top 5 Products</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Products</th>
+                                    <th scope="col">Orders</th>
+                                    <th scope="col">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topProductsTableBody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="revenue-by-zone-container">
+                        <h5 class="summaryTitle">Revenue by Zone</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Zone</th>
+                                    <th scope="col">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody id="revenueByZoneTableBody">
+                                <tr>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+        <br><br><br><br>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
+        <script src="node_modules/lodash/lodash.js"></script>
+        <script src="main.js">
+        </script>
+    </body>
+
+</html>
